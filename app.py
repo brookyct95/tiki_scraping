@@ -6,7 +6,7 @@ URL = 'https://tiki.vn/dien-thoai-may-tinh-bang/c1789?src=c.1789.hamburger_menu_
 @app.route('/')
 def index():
   tiki_scraper = Scraper(URL)
-  data = tiki_scraper.scrape_data()
+  data = tiki_scraper.scrape_page()
   return render_template('index.html',data = data)
 
 if __name__ == '__main__':
