@@ -3,13 +3,26 @@ import requests
 import pandas as pd 
 class Scraper():
     def scrape_page(self,url):
+        """
+        Scrape a tiki webpage for item detail
+        """
+        #Create Soup
         response = requests.get(url)
         try:
             response.raise_for_status()
         except Exception as exc:
             print('There was a problem: %s' % (exc))
         soup = BeautifulSoup(response.text)
-        id_list, name_list, category_list, brand_list, img_link_list, price_list, item_link_list,rating_list,no_review_list, tikinow_list =[], [], [],[],[],[],[],[],[],[]
+        id_list = []
+        name_list = []
+        category_list = [] 
+        brand_list = [] 
+        img_link_list = [] 
+        price_list = [] 
+        item_link_list = []
+        rating_list = []
+        no_review_list = [] 
+        tikinow_list =[]
         item_generals = soup.findAll('div',class_ = 'product-item')
         for item in item_generals:
             id_list.append(item['data-id'])
