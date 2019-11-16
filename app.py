@@ -2,11 +2,11 @@ from flask import Flask, render_template
 from Scrapping import Scraper
 app = Flask(__name__)
 URL = 'https://tiki.vn/dien-thoai-may-tinh-bang/c1789?src=c.1789.hamburger_menu_fly_out_banner'
-
+#URL_LIST = 
 @app.route('/')
 def index():
-  tiki_scraper = Scraper(URL)
-  data = tiki_scraper.scrape_page()
+  tiki_scraper = Scraper()
+  data = tiki_scraper.scrape_page(URL)
   return render_template('index.html',data = data)
 
 if __name__ == '__main__':
