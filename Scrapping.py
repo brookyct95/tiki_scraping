@@ -46,13 +46,34 @@ class Scraper():
             soup = BeautifulSoup(response.text)
             next_url = 'https://tiki.vn'+(soup.find(class_ ='next')['href'] if soup.find(class_ ='next') else '')
             if soup.find(class_ ='next') != None:
-                print(next_url)
-                temp_data = self.scrape_page(next_url)
-                temp_data.head()
-                data = pd.concat([data,temp_data],ignore_index = True)
-                print(data.tail(1))
+                print('scrape data from: '+next_url)
+                try:
+                    temp_data = self.scrape_page(next_url)
+                    data = pd.concat([data,temp_data],ignore_index = True)
+                    print(data.shape)
+                except Exception as exc:
+                    print('There was a problem: %s' % (exc))
             else:
                 break
         return data
+    
     def scrape_all(self):
-        pass
+        data = self.scrape_category('https://tiki.vn')
+        link_list = []
+        response = requests.get('https://tiki.vn')
+        try:
+            response.raise_for_status()
+        except Exception as exc:
+            print('There was a problem: %s' % (exc))
+        soup = BeautifulSoup(response.text)
+        links = soup.find_all(class_='MenuItem__MenuLink-tii3xq-1 efuIbv')
+        for link in links:
+            link_list.append(link['href'])
+        for link in link_list:
+            print('scrape data from ' + link)
+            try:
+                tempdata = self.scrape_category(link)
+                data = pd.concat([data,tempdata], ignore_index = True)
+            except Exception as exc:
+                print('There was a problem: %s' % (exc))
+        return data
