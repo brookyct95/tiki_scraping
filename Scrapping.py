@@ -10,7 +10,7 @@ class Scraper():
         self.soup = BeautifulSoup(self.response.text)
 
     def scrape_data(self):
-        id_list, name_list, category_list, brand_list, img_link_list, price_list = [], [], [], [], [], []
+        id_list, name_list, category_list, brand_list, img_link_list, price_list, item_link_list = [], [], [], [], [], [], []
         item_generals = self.soup.findAll('div',class_ = 'product-item')
         for item in item_generals:
             id_list.append(item['data-id'])
@@ -19,7 +19,12 @@ class Scraper():
             brand_list.append(item['data-brand'])
             price_list.append(item['data-price'])
             img_link_list.append(item.img['src'])
-        data = data = pd.DataFrame([id_list, name_list, category_list, brand_list, img_link_list, price_list]).T
-        data.set_axis(['id','name','category','brand','img_link','price'],axis = 1, inplace = True)
-        data.set_index('id',inplace = True)
+            item_link_list.append(item.a['href'])
+        data = pd.DataFrame({'id':id_list, 
+                            'name':name_list, 
+                            'category':category_list, 
+                            'brand':brand_list, 
+                            'item_link':item_link_list, 
+                            'img_link':img_link_list, 
+                            'price':price_list})
         return data
