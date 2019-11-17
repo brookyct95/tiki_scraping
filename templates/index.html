@@ -10,16 +10,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
-    {% for i in range(data.shape[0])%}
-    <div class="card" style="width: 18rem;">
-      <img src={{ data.loc[i,'img_link'] }} class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{ data.loc[i,'price'] }}</h5>
-        <p class="card-text">{{ data.loc[i,'name'] }}</p>
-        <a href={{ data.loc[i,'item_link'] }} class="btn btn-primary">buynow</a>
+    <div class="card-deck">
+      <div class="card">
+        <img src={{ data.loc[0,'img_link'] }} class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ data.loc[0,'name']}}</h5>
+          <p class="card-text">{{ data.loc[0,'price'] }}</p>
+          <p class="card-text"><small class="text-muted">Rating: {{ data.loc[0,'price'] }}</small></p>
+          <a href={{ data.loc[0,'item_link'] }} class="btn btn-primary">Buy Now</a>
+        </div>
       </div>
-    </div>
-    {%endfor%}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
