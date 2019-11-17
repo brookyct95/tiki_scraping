@@ -7,6 +7,7 @@ class Scraper():
         Scrape a tiki webpage for item detail
         """
         #Create Soup
+        print('scrapping data from: '+url)
         response = requests.get(url)
         try:
             response.raise_for_status()
@@ -48,8 +49,24 @@ class Scraper():
         return data
     
     def scrape_category(self,url):
-        next_url = url
+        response = requests.get(url)
+        try:
+            response.raise_for_status()
+        except Exception as exc:
+            print('There was a problem: %s' % (exc))
+        soup = BeautifulSoup(response.text)
+
+        if soup.find(class_ = 'current') == None:
+            next_url = url
+        elif soup.find(class_ = 'current').text == '1':
+            next_url = url
+        else:
+            for i in range(-1,-1*len(url),-1):
+                if not url[i].isdigit():
+                    next_url = url[:i+1] + '1'
+                    break
         data = self.scrape_page(next_url)
+        print(data.shape)
         while True:    
             response = requests.get(next_url)
             try:
@@ -59,7 +76,6 @@ class Scraper():
             soup = BeautifulSoup(response.text)
             next_url = 'https://tiki.vn'+(soup.find(class_ ='next')['href'] if soup.find(class_ ='next') else '')
             if soup.find(class_ ='next') != None:
-                print('scrape data from: '+next_url)
                 try:
                     temp_data = self.scrape_page(next_url)
                     data = pd.concat([data,temp_data],ignore_index = True)
@@ -83,7 +99,6 @@ class Scraper():
         for link in links:
             link_list.append(link['href'])
         for link in link_list:
-            print('scrape data from ' + link)
             try:
                 tempdata = self.scrape_category(link)
                 data = pd.concat([data,tempdata], ignore_index = True)
