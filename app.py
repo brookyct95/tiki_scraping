@@ -3,6 +3,7 @@ from Scrapping import Scraper
 app = Flask(__name__)
 URL = 'https://tiki.vn/'
 #URL_LIST = 
+#Natalie
 @app.route('/', methods=['GET', 'POST'])
 def index():
   tiki_scraper = Scraper()
