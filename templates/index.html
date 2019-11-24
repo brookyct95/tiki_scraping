@@ -10,43 +10,26 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="static/styles.css">
 </head>
 
-<body style="padding-top: 70px;">
+<body>
   <!--navbar-->
   <nav class="navbar navbar-light bg-light navbar fixed-top">
     <!--searchbox-->
     <form class="form-inline" action="{{ url_for('index') }}" method="POST">
-      <input class="form-control mr-sm-2" type="text" name ="tiki_url" placeholder="Tiki url">
-      <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit" name="submit-button" value="scrape-page">Scrape Page</button>
+      <input class="form-control mr-sm-2 query-form" type="text" name ="query" placeholder="Please insert an SQL query">
+      <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit" name="submit-button" value="submit-query">Submit Query</button>
       <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit" name="submit-button" value="scrape-category">Scrape Category</button>
       <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit" name="submit-button" value="scrape-all">Scrape all</button>
     </form>
   </nav>
-  <div class="d-flex flex-wrap">
-    {% for i in range(data.shape[0]) %}
-    <div class="card mx-3 my-3 flex-wrap w-70">
-      <img src={{ data.loc[i,'img_link'] }} class="card-img-top" style="width:50%;height:50%;" alt="...">
-      <div class="card-body">
-        <h5 class="card-title word-wrap">
-          <div class="card-block">
-            {{ data.loc[i,'name']}}
-          </div>
-        </h5>
-        <p class="card-text">{{ data.loc[i,'price'] }}</p>
-        <p class="card-text"><small class="text-muted">Rating: {{ data.loc[i,'rating'] }}</small></p>
-        {% if data.loc[i,'tikinow'] %}
-        <img src="https://frontend.tikicdn.com/_new-next/static/img/icons/tikinow/tiki-now-15.png" alt="...">
-        {% endif %}
-        <a href={{ data.loc[i,'item_link'] }} class="btn btn-primary">Buy Now</a>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+  <h1 class='text-center text-monospace' style="font-family:Georgia, 'Times New Roman', Times, serif;">{{name}}</h1>
+  <div class = 'containter flex-wrap mw-100 py-3 px-5'>
   {% for table in tables %}
             {{ table|safe }}
   {% endfor %}
+  </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
